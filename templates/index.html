@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Credit Cards</title>
+    <style>
+        .highlight {
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <h1>My Credit Cards</h1>
+    <h2>Payments Due in {{ current_month }}/{{ current_year }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Card Name</th>
+                <th>Balance</th>
+                <th>Payment Due Date/Time</th>
+                <th>Minimum Payment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for card in cards %}
+                {% if card[0] in due_this_month %}
+                    <tr class="highlight">
+                {% else %}
+                    <tr>
+                {% endif %}
+                    <td>{{ card[0] }}</td>
+                    <td>${{ card[1]|round(2) }}</td>
+                    <td>{{ card[2] }}</td>
+                    <td>${{ card[3]|round(2) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <ul>
+        {% for card in cards %}
+            {% if card[1] in due_this_month %}
+                <li>{{ card[1] }} - {{ card[3] }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <h2><br />Total Minimum Due This Month: {{ total_minimum_due|round(2) }}</h2>
+    <table>
+       
+
